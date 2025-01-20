@@ -102,7 +102,7 @@
 
 // components/Menu.jsx
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Draggable from "react-draggable";
 import MenuBtn from "../assets/Menu.jpeg";
 
@@ -112,7 +112,7 @@ const Menu = () => {
     x: window.innerWidth - 100,
     y: window.innerHeight / 2 - 100,
   });
-
+  const navigate = useNavigate();
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -165,7 +165,11 @@ const Menu = () => {
                 : "bottomCenter"
             }`}
           >
-            <div className="toggle-btn" onClick={toggleMenu}>
+            <div
+              className="toggle-btn"
+              onClick={toggleMenu}
+              onTouchStart={toggleMenu}
+            >
               <img src={MenuBtn} alt="menu" className="menu-Btn-Img" />
               <p>Menu</p>
             </div>
@@ -177,7 +181,7 @@ const Menu = () => {
               { to: "/about", text: "About" },
             ].map((item, index) => (
               <span key={index} style={{ "--i": index + 1 }}>
-                <Link to={item.to}>
+                <Link to={item.to} onTouchStart={() => navigate(item.to)}>
                   <p>{item.text}</p>
                 </Link>
               </span>
