@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import "./Projects.css"; // Importing the external CSS for the flip effect
 import axios from "axios";
-
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 const Projects = () => {
   // Sample data for projects
   const [projects, setProjects] = useState([]);
@@ -10,7 +10,7 @@ const Projects = () => {
   useEffect(() => {
     // Fetch the projects from the backend
     axios
-      .get("/api/projects")
+      .get(`${apiBaseUrl}/api/projects`)
       .then((response) => {
         setProjects(response.data.projects);
       })

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 const ProjectsPage = () => {
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,7 +17,7 @@ const ProjectsPage = () => {
   useEffect(() => {
     // Fetch the projects from the backend
     axios
-      .get("/api/projects")
+      .get(`${apiBaseUrl}/api/project`)
       .then((response) => setProjects(response.data.projects))
       .catch((error) => console.error(error));
   }, []);
@@ -47,7 +47,7 @@ const ProjectsPage = () => {
     setIsLoading(true);
 
     axios
-      .post("/api/projects/upload", formData)
+      .post(`${apiBaseUrl}/api/projects/upload`, formData)
       .then((response) => {
         setProjects([...projects, response.data.project]);
         setFormData({
@@ -79,7 +79,7 @@ const ProjectsPage = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(`/api/projects/${id}`)
+      .delete(`${apiBaseUrl}/api/projects/${id}`)
       .then((response) => {
         setProjects(projects.filter((project) => project._id !== id));
         alert("Project deleted successfully!");

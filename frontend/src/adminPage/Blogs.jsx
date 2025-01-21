@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -15,7 +17,7 @@ const Blogs = () => {
   useEffect(() => {
     // Fetch all blogs from the backend
     axios
-      .get("/api/blogs")
+      .get(`${apiBaseUrl}/api/blogs`)
       .then((response) => setBlogs(response.data.blogs))
       .catch((error) => console.error(error));
   }, []);
@@ -39,7 +41,7 @@ const Blogs = () => {
     setIsLoading(true);
 
     axios
-      .post("/api/blogs/upload", formData)
+      .post(`${apiBaseUrl}/api/blogs/upload`, formData)
       .then((response) => {
         setBlogs([response.data.blog, ...blogs]);
         setFormData({ title: "", author: "", summary: "", imageUrl: "" });
@@ -59,7 +61,7 @@ const Blogs = () => {
 
   const handleDelete = (id) => {
     axios
-      .delete(`/api/blogs/${id}`)
+      .delete(`${apiBaseUrl}/api/blogs/${id}`)
       .then((response) => {
         setBlogs(blogs.filter((blog) => blog._id !== id));
         alert("Blog deleted successfully!");
